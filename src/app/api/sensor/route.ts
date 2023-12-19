@@ -3,7 +3,7 @@ import { db } from "@/server/db";
 export async function GET() {
   const res = await db.sensor.findMany({
     where: {
-      intensite: {
+      intensity: {
         not: 0,
       },
       events: {
