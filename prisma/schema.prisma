@@ -21,7 +21,7 @@ model Event {
 
 model Sensor {
   id        Int          @id @default(autoincrement())
-  intensite Int
+  intensity Int
   latitude  Float
   longitude Float
   events    SensorsOnEvents[]

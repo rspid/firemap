@@ -4,7 +4,7 @@ export async function GET() {
   console.log("salut");
   const res = await db.sensor.findMany({
     where: {
-      intensite: {
+      intensity: {
         not: 0,
       },
       events: {
