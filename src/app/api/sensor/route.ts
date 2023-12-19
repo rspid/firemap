@@ -1,6 +1,7 @@
 import { db } from "@/server/db";
 
 export async function GET() {
+  console.log("salut");
   const res = await db.sensor.findMany({
     where: {
       intensity: {
