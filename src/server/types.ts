@@ -2,14 +2,22 @@ export type Event = {
   id: number;
   isOver: boolean;
   sensors?: Sensor[];
-  createdAt: Date;
+  created_at: Date;
 };
 
 export type Sensor = {
   id: number;
-  intensite: number;
+  intensity: number;
   latitude: number;
   longitude: number;
   events?: Event[];
-  createdAt: Date;
+  created_at: Date;
+};
+
+export type Base = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  created_at: Date;
 };
