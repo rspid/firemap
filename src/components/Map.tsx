@@ -1,5 +1,5 @@
 //1. Import dependencies for React, Leaflet, and other functionalities.
-import { Base, Sensor } from "@/server/types";
+import { Base, Sensor, Vehicle } from "@/server/types";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React, { FC, useRef, useState } from "react";
@@ -9,6 +9,7 @@ type MapType = {
   data: {
     sensors?: Sensor[];
     bases: Base[];
+    vehicles: Vehicle[];
   };
 };
 // interface MarkerData {
@@ -21,8 +22,13 @@ const baseIcon = new Icon({
   iconSize: [50, 50], // size of the icon
 });
 
+const vehicleIcon = new Icon({
+  iconUrl: "/img/vehicle.png",
+  iconSize: [25, 25], // size of the icon
+});
+
 const Map = ({ data }: MapType) => {
-  const { sensors, bases } = data;
+  const { sensors, bases, vehicles } = data;
 
   // const ZoomHandler: FC = () => {
   //   const map = useMap();
@@ -56,6 +62,13 @@ const Map = ({ data }: MapType) => {
             icon={baseIcon}
           />
         ))}
+        {vehicles.map((vehicle) => {
+          <Marker
+            key={vehicle.id}
+            position={[vehicle.latitude, vehicle.longitude]}
+            icon={vehicleIcon}
+          />;
+        })}
         {sensors?.map((sensor) => (
           <Circle
             key={sensor.id}

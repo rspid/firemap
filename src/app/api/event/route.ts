@@ -1,5 +1,7 @@
 import { db } from "@/server/db";
 
+//for python gateway
+//create new events
 export async function POST(request: Request) {
   const res = await request.json();
   const sensors = res.sensors;
@@ -32,6 +34,8 @@ export async function POST(request: Request) {
   return Response.json({ result });
 }
 
+//for java simulator
+//update sensors intensity
 export async function PUT(request: Request) {
   const res = await request.json();
   const sensors = res.sensors;

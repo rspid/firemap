@@ -1,33 +1,30 @@
 import { db } from "@/server/db";
-import { NextApiRequest, NextApiResponse } from 'next';
 
-
+//for the view
+//get all vehicles
 export async function GET() {
-  console.log("bonjour")
-  const res = await db.vehicle.findMany({
-    where: {
-      is_busy: true,
-    },
-  });
-  return Response.json("bonjour");
+  const res = await db.vehicle.findMany();
+  return Response.json(res);
 }
 
+//for java emergency manager
+//update vehicle position
 export async function PUT(request: Request) {
-  const params = await request.json()
-  if (params.id != null && params.longitude != null && params.latitude != null){
-    try {
-      const updateVehicle = await db.vehicle.update({
-        where: {
-          id: params.id,
-        },
-        data: {
-          longitude: params.longitude,
-          latitude: params.latitude
-        },
-      })
-      return Response.json(updateVehicle);
-    } catch {
-      return Response.json("error");
-    }
-  } return Response.json("error");
+  const params = await request.json();
+  if (params.id == null && params.longitude == null && params.latitude == null)
+    return;
+  try {
+    const updatedVehicle = await db.vehicle.update({
+      where: {
+        id: params.id,
+      },
+      data: {
+        longitude: params.longitude,
+        latitude: params.latitude,
+      },
+    });
+    return Response.json(updatedVehicle);
+  } catch {
+    return Response.json("error");
+  }
 }

@@ -22,22 +22,24 @@ model Event {
 model Sensor {
   id        Int          @id @default(autoincrement())
   intensity Int
-  latitude  Float
   longitude Float
+  latitude  Float
   events    SensorsOnEvents[]
   created_at DateTime     @default(now())
   @@map("sensors")
 }
 
 model Vehicle {
-  id        Int          @id @default(autoincrement())
-  is_busy Boolean     @default(false)
-  latitude  Float
-  longitude Float
-  created_at DateTime     @default(now())
-  events    VehiclesOnEvents[]
-  Type TypeVehicle @relation(fields: [type_vehicle_id], references: [id])
+  id            Int          @id @default(autoincrement())
+  is_busy       Boolean      @default(false)
+  longitude     Float
+  latitude      Float
+  created_at    DateTime     @default(now())
+  events        VehiclesOnEvents[]
+  Type          TypeVehicle  @relation(fields: [type_vehicle_id], references: [id])
   type_vehicle_id Int
+  base          Base         @relation(fields: [base_id], references: [id])
+  base_id       Int
   @@map("vehicles")
 }
 
@@ -52,9 +54,10 @@ model TypeVehicle {
 model Base {
   id        Int          @id @default(autoincrement())
   name     String
-  latitude  Float
   longitude Float
+  latitude  Float
   created_at DateTime     @default(now())
+  vehicles Vehicle[]
   @@map("bases")
 }
 
