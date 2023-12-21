@@ -1,8 +1,7 @@
-//1. Import dependencies for React, Leaflet, and other functionalities.
 import { Base, Sensor, Vehicle } from "@/server/types";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import React, { FC, useRef, useState } from "react";
+import React from "react";
 import { Circle, MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 
 type MapType = {
@@ -12,19 +11,15 @@ type MapType = {
     vehicles: Vehicle[];
   };
 };
-// interface MarkerData {
-//   coordinates: [number, number];
-//   title: string;
-// }
 
 const baseIcon = new Icon({
   iconUrl: "/img/base2.png",
-  iconSize: [50, 50], // size of the icon
+  iconSize: [50, 50],
 });
 
 const vehicleIcon = new Icon({
   iconUrl: "/img/vehicle.png",
-  iconSize: [25, 25], // size of the icon
+  iconSize: [25, 25],
 });
 
 const Map = ({ data }: MapType) => {
@@ -42,6 +37,7 @@ const Map = ({ data }: MapType) => {
   //   };
   //   return null;
   // };
+  console.log(vehicles);
   return (
     <div>
       <MapContainer
@@ -51,10 +47,6 @@ const Map = ({ data }: MapType) => {
       >
         <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" />
         {/* <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" /> */}
-
-        {/* {markerData && markerData.coordinates && (
-          <Marker position={markerData.coordinates} icon={baseIcon} />
-        )} */}
         {bases.map((base) => (
           <Marker
             key={base.id}
@@ -62,13 +54,13 @@ const Map = ({ data }: MapType) => {
             icon={baseIcon}
           />
         ))}
-        {vehicles.map((vehicle) => {
+        {vehicles.map((vehicle) => (
           <Marker
             key={vehicle.id}
             position={[vehicle.latitude, vehicle.longitude]}
             icon={vehicleIcon}
-          />;
-        })}
+          />
+        ))}
         {sensors?.map((sensor) => (
           <Circle
             key={sensor.id}

@@ -72,12 +72,14 @@ model SensorsOnEvents {
 }
 
 model VehiclesOnEvents {
+  id     Int   @id @default(autoincrement())
   event    Event    @relation(fields: [event_id], references: [id])
-  event_id  Int      // relation scalar field (used in the `@relation` attribute above)
+  event_id  Int      
   vehicle   Vehicle   @relation(fields: [vehicle_id], references: [id])
-  vehicle_id Int      // relation scalar field (used in the `@relation` attribute above)
+  vehicle_id Int    
+  on_site Boolean @default(false)
   created_at DateTime @default(now())
   @@map("pivot_events_vehicles")
-  @@id([event_id, vehicle_id])
+  @@index([event_id, vehicle_id])
 }
 

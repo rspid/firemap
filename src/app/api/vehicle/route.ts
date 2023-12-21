@@ -7,7 +7,7 @@ export async function GET() {
   return Response.json(res);
 }
 
-//for java emergency manager
+//for simulator
 //update vehicle position
 export async function PUT(request: Request) {
   const params = await request.json();
