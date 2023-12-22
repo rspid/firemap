@@ -2,7 +2,7 @@ import { Base, Sensor, Vehicle } from "@/server/types";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React from "react";
-import { Circle, MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { Circle, MapContainer, Marker, TileLayer } from "react-leaflet";
 
 type MapType = {
   data: {
@@ -24,20 +24,6 @@ const vehicleIcon = new Icon({
 
 const Map = ({ data }: MapType) => {
   const { sensors, bases, vehicles } = data;
-
-  // const ZoomHandler: FC = () => {
-  //   const map = useMap();
-  //   const flyToMarker = (coordinates: [number, number], zoom: number) => {
-  //     if (coordinates && typeof coordinates[0] !== "undefined") {
-  //       map.flyTo(coordinates, zoom, {
-  //         animate: true,
-  //         duration: 1.5,
-  //       });
-  //     }
-  //   };
-  //   return null;
-  // };
-  console.log(vehicles);
   return (
     <div>
       <MapContainer
@@ -46,7 +32,6 @@ const Map = ({ data }: MapType) => {
         style={{ height: "100vh", width: "100vw" }}
       >
         <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" />
-        {/* <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" /> */}
         {bases.map((base) => (
           <Marker
             key={base.id}
@@ -69,7 +54,6 @@ const Map = ({ data }: MapType) => {
             color={"#FF4901"}
           />
         ))}
-        {/* <ZoomHandler /> */}
       </MapContainer>
     </div>
   );
