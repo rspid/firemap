@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { calculateRouteProperties } from "../event/route";
+import { calculateRouteProperties } from "@/utils/itinerary";
 
 //for java emergency manager
 //return route to base for a vehicle
