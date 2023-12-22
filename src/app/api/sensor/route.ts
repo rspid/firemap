@@ -1,10 +1,18 @@
 import { db } from "@/server/db";
 
 //for python gateway
-//get all sensors
-export async function GET() {
-  const res = await db.sensor.findMany();
-  return Response.json(res);
+//get one sensor
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  if (!id) return Response.json({ error: "No id provided" }, { status: 400 });
+  //convert id in to number
+  const idNumber = Number(id);
+  const sensor = await db.sensor.findUnique({
+    where: { id: idNumber },
+    include: { events: true },
+  });
+  return Response.json(sensor);
 }
 //for python gateway
 //add a new sensor for one event
