@@ -1,7 +1,7 @@
 import { db } from "@/server/db";
 import { calculateRouteProperties } from "@/utils/itinerary";
 
-//for java emergency manager
+//for java simulator
 //return route to base for a vehicle
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

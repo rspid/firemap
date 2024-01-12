@@ -1,41 +1,46 @@
 import { db } from "@/server/db";
 
-// for python gateway
-// update sensors intensity and create new events
 export async function POST(request: Request) {
   const res = await request.json();
-  const sensors = res.sensors;
-  const result = await Promise.all(
-    sensors.map(async (sensor: { id: number; intensity: number }) => {
-      const oneSensor = await db.sensor.findUnique({
-        where: {
-          id: sensor.id,
-        },
-      });
-      if (!oneSensor) return;
+  const sensor = res.sensor;
+  const oneSensor = await db.sensor.findUnique({
+    where: {
+      id: sensor,
+    },
+  });
+  if (!oneSensor) return;
 
-      const createNewEvent = sensor.intensity > 0;
+  const sensorUpdated = await db.sensor.update({
+    where: {
+      id: oneSensor.id,
+    },
+    data: {
+      events: {
+        create: [{ event: { create: { is_over: false } } }],
+      },
+    },
+    include: {
+      events: true,
+    },
+  });
 
-      const sensorUpdated = await db.sensor.update({
-        where: {
-          id: sensor.id,
-        },
-        data: {
-          intensity: sensor.intensity,
-          events: createNewEvent
-            ? {
-                create: [{ event: { create: { is_over: false } } }],
-              }
-            : undefined,
-        },
+  return Response.json({ sensorUpdated });
+}
+
+//for emergency manager
+//get all events
+export async function GET() {
+  const res = await db.event.findMany({
+    where: {
+      is_over: false,
+    },
+    include: {
+      sensors: {
         include: {
-          events: true,
+          sensor: true,
         },
-      });
-
-      return sensorUpdated;
-    })
-  );
-
-  return Response.json({ result });
+      },
+    },
+  });
+  return Response.json(res);
 }
