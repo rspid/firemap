@@ -8,6 +8,13 @@ export async function GET() {
       intensity: {
         not: 0,
       },
+      events: {
+        some: {
+          event: {
+            is_over: false,
+          },
+        },
+      },
     },
   });
   return Response.json(res);

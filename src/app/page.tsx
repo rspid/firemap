@@ -52,7 +52,7 @@ const MyPage = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/sensor/active");
+        const response = await axios.get("/api/sensor/event");
         setSensors(response.data);
       } catch (error) {
         console.error("Erreur lors de la requête à votre API", error);
