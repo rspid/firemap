@@ -10,7 +10,16 @@ export async function GET(request: Request) {
   const idNumber = Number(id);
   const sensor = await db.sensor.findUnique({
     where: { id: idNumber },
-    include: { events: true },
+    include: {
+      events: {
+        where: {
+          event: { is_over: false },
+        },
+        include: {
+          event: true,
+        },
+      },
+    },
   });
   return Response.json(sensor);
 }
