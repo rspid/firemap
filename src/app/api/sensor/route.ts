@@ -23,8 +23,10 @@ export async function GET(request: Request) {
   });
   return Response.json(sensor);
 }
+
 //for python gateway
-//add a new sensor for one event
+//update one sensor
+
 export async function PUT(request: Request) {
   const res = await request.json();
   const sensor = res.sensor;
@@ -33,13 +35,12 @@ export async function PUT(request: Request) {
       id: sensor.id,
     },
     data: {
-      events: {
-        create: [{ event: { connect: { id: sensor.event_id } } }],
-      },
+      intensity: sensor.intensity,
     },
     include: {
       events: true,
     },
   });
-  return Response.json(oneSensor);
+
+  return Response.json({ oneSensor });
 }
