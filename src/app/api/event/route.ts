@@ -20,11 +20,27 @@ export async function POST(request: Request) {
       },
     },
     include: {
-      events: true,
+      events: {
+        include: {
+          event: {
+            include: {
+              sensors: {
+                include: {
+                  sensor: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
+  const latestEvent =
+    sensorUpdated.events[sensorUpdated.events.length - 1].event;
 
-  return Response.json({ sensorUpdated });
+  const { id, is_over, created_at, sensors } = latestEvent;
+
+  return Response.json({ id, is_over, created_at, sensors });
 }
 
 //for emergency manager

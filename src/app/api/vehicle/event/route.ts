@@ -5,40 +5,36 @@ import { calculateRouteProperties } from "@/utils/itinerary";
 //assigning vehicles to events
 export async function POST(request: Request) {
   const res = await request.json();
-  const vehicles = res.vehicles;
-  const affectedVehicles = await Promise.all(
-    vehicles.map(async (vehicle: { id: number; eventId: number }) => {
-      const updatedVehicle = await db.vehicle.update({
-        where: {
-          id: vehicle.id,
-        },
-        data: {
-          is_busy: true,
-          events: {
-            create: [{ event: { connect: { id: vehicle.eventId } } }],
-          },
-        },
+  const vehicle = res.vehicle;
+
+  const updatedVehicle = await db.vehicle.update({
+    where: {
+      id: vehicle.id,
+    },
+    data: {
+      is_busy: true,
+      events: {
+        create: [{ event: { connect: { id: vehicle.eventId } } }],
+      },
+    },
+    include: {
+      events: {
         include: {
-          events: {
+          event: {
             include: {
-              event: {
+              sensors: {
                 include: {
-                  sensors: {
-                    include: {
-                      sensor: true,
-                    },
-                  },
+                  sensor: true,
                 },
               },
             },
           },
         },
-      });
+      },
+    },
+  });
 
-      return updatedVehicle;
-    })
-  );
-  return Response.json(affectedVehicles);
+  return Response.json(updatedVehicle);
 }
 
 //for simulator
