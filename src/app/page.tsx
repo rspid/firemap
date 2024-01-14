@@ -19,6 +19,7 @@
 
 "use client";
 import axios from "axios";
+import { revalidatePath } from "next/cache";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 const MapComponent = dynamic(() => import("../components/Map"), {
@@ -42,6 +43,7 @@ const MyPage = () => {
     try {
       const response = await axios.get("/api/vehicle");
       setVehicles(response.data);
+      revalidatePath("/");
     } catch (error) {
       console.error("Erreur lors de la requête à votre API", error);
     }
