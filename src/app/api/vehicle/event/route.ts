@@ -86,7 +86,11 @@ export async function GET() {
       const position = `${vehicle.longitude},${vehicle.latitude}`;
       const end = `${maxIntensitySensor.longitude},${maxIntensitySensor.latitude}`;
       const routeProperties = await calculateRouteProperties(position, end);
-      return { vehicle_id: vehicle.id, routeProperties };
+      return {
+        vehicle_id: vehicle.id,
+        routeProperties,
+        pivot_event_vehicle_id: vehicle.events[0].id,
+      };
     })
   );
   return Response.json(operationProperties);
