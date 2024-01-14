@@ -11,11 +11,24 @@ export async function GET() {
           },
         },
       },
+      vehicles: {
+        every: {
+          on_site: true,
+          vehicle: {
+            is_busy: true,
+          },
+        },
+      },
     },
     include: {
       sensors: {
         include: {
           sensor: true,
+        },
+      },
+      vehicles: {
+        include: {
+          vehicle: true,
         },
       },
     },
