@@ -62,7 +62,8 @@ const MyPage = () => {
 
     const intervalId = setInterval(() => {
       fetchData();
-    }, 20000); // 10000 millisecondes = 10 secondes
+      fetchVehicles();
+    }, 5000); // 10000 millisecondes = 10 secondes
 
     return () => {
       clearInterval(intervalId);
