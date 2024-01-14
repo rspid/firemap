@@ -41,6 +41,14 @@ export async function PUT(request: Request) {
       events: true,
     },
   });
+  const { id, intensity, longitude, latitude, created_at, events } = oneSensor;
 
-  return Response.json({ oneSensor });
+  return Response.json({
+    id,
+    intensity,
+    longitude,
+    latitude,
+    created_at,
+    events,
+  });
 }
