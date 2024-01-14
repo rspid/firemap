@@ -1,6 +1,7 @@
 import { Base, Sensor, Vehicle } from "@/server/types";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { Eye, EyeOff } from "lucide-react";
 import React from "react";
 import { Circle, MapContainer, Marker, TileLayer } from "react-leaflet";
 
@@ -13,13 +14,13 @@ type MapType = {
 };
 
 const baseIcon = new Icon({
-  iconUrl: "/img/base2.png",
-  iconSize: [50, 50],
+  iconUrl: "/img/base.png",
+  iconSize: [40, 40],
 });
 
 const vehicleIcon = new Icon({
   iconUrl: "/img/vehicle.png",
-  iconSize: [25, 25],
+  iconSize: [30, 30],
 });
 
 const Map = ({ data }: MapType) => {
@@ -35,16 +36,8 @@ const Map = ({ data }: MapType) => {
           zoom={14}
           style={{ height: "100vh", width: "100vw", zIndex: 1 }}
         >
-          {/* <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" /> */}
           <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png" />
 
-          {bases.map((base) => (
-            <Marker
-              key={base.id}
-              position={[base.latitude, base.longitude]}
-              icon={baseIcon}
-            />
-          ))}
           {isVehiclesShown &&
             vehicles.map((vehicle) => (
               <Marker
@@ -53,6 +46,14 @@ const Map = ({ data }: MapType) => {
                 icon={vehicleIcon}
               />
             ))}
+          {bases.map((base) => (
+            <Marker
+              key={base.id}
+              position={[base.latitude, base.longitude]}
+              icon={baseIcon}
+            />
+          ))}
+
           {isSensorsShown &&
             sensors?.map((sensor) => (
               <Circle
@@ -66,19 +67,21 @@ const Map = ({ data }: MapType) => {
       </div>
       <button
         onClick={() => setIsSensorsShown(!isSensorsShown)}
-        className={`px-3 py-2 rounded-lg absolute bottom-12 left-6 z-50 ${
+        className={`py-2 w-40 justify-center rounded-lg absolute bottom-12 gap-2 items-center left-6 z-50 flex ${
           isSensorsShown ? "bg-red-700" : "bg-green-700"
         }`}
       >
-        {isSensorsShown ? "Hide Sensors" : "Show Sensors"}
+        {isSensorsShown ? <EyeOff size={20} /> : <Eye size={20} />}
+        <span>{isSensorsShown ? "Hide Sensors" : "Show Sensors"}</span>
       </button>
       <button
         onClick={() => setIsVehiclesShown(!isVehiclesShown)}
-        className={`px-3 py-2 rounded-lg absolute bottom-24 left-6 z-50 ${
+        className={`py-2 w-40 justify-center rounded-lg absolute bottom-24 gap-2 items-center left-6 z-50 flex ${
           isVehiclesShown ? "bg-red-700" : "bg-green-700"
         }`}
       >
-        {isVehiclesShown ? "Hide Vehicles" : "Show Vehicles"}
+        {isVehiclesShown ? <EyeOff size={20} /> : <Eye size={20} />}
+        <span>{isVehiclesShown ? "Hide Vehicles" : "Show Vehicles"}</span>
       </button>
     </div>
   );
