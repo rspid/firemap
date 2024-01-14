@@ -48,6 +48,7 @@ export async function GET() {
           event: {
             is_over: false,
           },
+          on_site: false,
         },
       },
     },

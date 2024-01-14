@@ -35,7 +35,8 @@ const Map = ({ data }: MapType) => {
           zoom={14}
           style={{ height: "100vh", width: "100vw", zIndex: 1 }}
         >
-          <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" />
+          {/* <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" /> */}
+          <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png" />
 
           {bases.map((base) => (
             <Marker
