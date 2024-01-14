@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import { EventVehicle } from "@/server/types";
 
 //for java simulator
 export async function GET(request: Request) {
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Event not found" }, { status: 404 });
   }
   const onSiteVehiclesCount = event.vehicles.filter(
-    (vehicle) => vehicle.on_site
+    (vehicle: EventVehicle) => vehicle.on_site
   ).length;
 
   return Response.json({ onSiteVehiclesCount });

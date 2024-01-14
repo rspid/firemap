@@ -30,3 +30,11 @@ export type Vehicle = {
   events?: Event[];
   created_at: Date;
 };
+
+export type EventVehicle = {
+  id: number;
+  event_id: number;
+  vehicle_id: number;
+  on_site: boolean;
+  created_at: Date;
+};
