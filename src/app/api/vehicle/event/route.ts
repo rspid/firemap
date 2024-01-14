@@ -43,6 +43,7 @@ export async function POST(request: Request) {
 export async function GET() {
   const vehicles = await db.vehicle.findMany({
     where: {
+      is_busy: true,
       events: {
         some: {
           event: {
