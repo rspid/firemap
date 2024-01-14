@@ -33,20 +33,30 @@ export async function GET() {
       },
     },
   });
-  return Response.json(res);
-}
+  const updatedEvents = await Promise.all(
+    res.map(async (event) => {
+      await db.event.update({
+        where: {
+          id: event.id,
+        },
+        data: {
+          is_over: true,
+        },
+      });
 
-export async function PUT(request: Request) {
-  const res = await request.json();
-  const event = res.event;
-  const updatedEvent = await db.event.update({
-    where: {
-      id: event,
-    },
-    data: {
-      is_over: true,
-    },
-  });
-
-  return Response.json({ updatedEvent });
+      await Promise.all(
+        event.vehicles.map(async (vehicleData) => {
+          await db.vehicle.update({
+            where: {
+              id: vehicleData.vehicle.id,
+            },
+            data: {
+              is_busy: false,
+            },
+          });
+        })
+      );
+    })
+  );
+  return Response.json(updatedEvents.length);
 }
