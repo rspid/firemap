@@ -13,6 +13,15 @@ export async function GET(request: Request) {
   if (!vehicle) {
     return Response.json({ error: "Event not found" }, { status: 404 });
   }
-
-  return Response.json({ vehicle });
+  const { is_busy, longitude, latitude, created_at, type_vehicle_id, base_id } =
+    vehicle;
+  return Response.json({
+    id: vehicle.id,
+    is_busy,
+    longitude,
+    latitude,
+    created_at,
+    type_vehicle_id,
+    base_id,
+  });
 }
