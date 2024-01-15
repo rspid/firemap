@@ -7,7 +7,9 @@ export async function GET() {
       sensors: {
         every: {
           sensor: {
-            intensity: 0,
+            intensity: {
+              equals: 0,
+            },
           },
         },
       },
@@ -33,6 +35,7 @@ export async function GET() {
       },
     },
   });
+  console.log(res.length);
   const updatedEvents = await Promise.all(
     res.map(async (event) => {
       await db.event.update({
