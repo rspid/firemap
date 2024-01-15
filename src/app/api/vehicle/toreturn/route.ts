@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import { calculateRouteProperties } from "@/utils/itinerary";
 
 export async function GET() {
   const vehicles = await db.vehicle.findMany({
@@ -19,7 +20,21 @@ export async function GET() {
           event: true,
         },
       },
+      base: true,
     },
   });
-  return Response.json(vehicles);
+
+  const operationProperties = await Promise.all(
+    vehicles.map(async (vehicle) => {
+      const position = `${vehicle.longitude},${vehicle.latitude}`;
+      const end = `${vehicle.base.longitude},${vehicle.base.latitude}`;
+      const routeProperties = await calculateRouteProperties(position, end);
+      return {
+        vehicle_id: vehicle.id,
+        routeProperties,
+        pivot_event_vehicle_id: vehicle.events[0].id,
+      };
+    })
+  );
+  return Response.json(operationProperties);
 }
