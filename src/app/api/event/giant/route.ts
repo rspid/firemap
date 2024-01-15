@@ -20,6 +20,11 @@ export async function GET() {
           sensor: true,
         },
       },
+      vehicles: {
+        include: {
+          vehicle: true,
+        },
+      },
     },
   });
   return Response.json(res);
